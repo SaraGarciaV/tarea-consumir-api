@@ -1,0 +1,41 @@
+<div class="users-container">
+  <h2>Lista de Usuarios</h2>
+  
+  <div class="search-container">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearch()"
+        placeholder="Buscar por nombre, email, ciudad o empresa..."
+        class="search-input">
+      <button *ngIf="searchTerm" (click)="clearSearch()" class="clear-btn">✕</button>
+    </div>
+    <div class="search-results" *ngIf="searchTerm">
+      Mostrando {{ filteredUsers.length }} de {{ users.length }} usuarios
+    </div>
+  </div>
+  
+  <div *ngIf="loading" class="loading">
+    <p>Cargando usuarios...</p>
+  </div>
+
+  <div *ngIf="!loading && filteredUsers.length > 0" class="users-grid">
+    <div *ngFor="let user of filteredUsers" class="user-card">
+      <h3>{{ user.name }}</h3>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Teléfono:</strong> {{ user.phone }}</p>
+      <p><strong>Ciudad:</strong> {{ user.address.city }}</p>
+      <p><strong>Empresa:</strong> {{ user.company.name }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && filteredUsers.length === 0 && searchTerm" class="no-results">
+    <p>No se encontraron usuarios que coincidan con "{{ searchTerm }}"</p>
+    <button (click)="clearSearch()" class="clear-search-btn">Limpiar búsqueda</button>
+  </div>
+
+  <div *ngIf="!loading && users.length === 0" class="no-data">
+    <p>No se encontraron usuarios.</p>
+  </div>
+</div>
